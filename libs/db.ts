@@ -44,16 +44,16 @@ export function getAccounts(): Account[] {
 
 
 /**
- * Retrieves an account from the database by its unique ID.
+ * Retrieves an account from the database by its unique email address.
  *
- * @param id The unique identifier of the account to retrieve.
- * @returns The Account object if found, or undefined if no account exists with the given ID.
+ * @param email The email address of the account to retrieve.
+ * @returns The Account object if found, or undefined if no account exists with the given email.
  */
-export function getAccountById(id: number): Account | undefined {
+export function getAccountByEmail(email: string): Account | undefined {
   const stmt = db.prepare(`
-    SELECT id, email, password, role FROM account WHERE id = ?
+    SELECT id, email, password, role FROM account WHERE email = ?
   `);
-  const row = stmt.get(id) as Account | undefined;
+  const row = stmt.get(email) as Account | undefined;
   if (!row) return undefined;
 
   return {
