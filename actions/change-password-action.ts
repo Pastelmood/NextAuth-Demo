@@ -22,8 +22,10 @@ export async function ChangePasswordAction(
   // get session from auth() from nextAuth
   // redirect to unauthorize page
   const session = { user: { email: "test@example.com" } };
+  // const session = undefined;
   if (!session) unauthorized();
-
+  
+  // const email = "test@example.com";
   const email = session.user.email;
   const currentPassword = formData.get("currentPassword")?.toString().trim();
   const newPassword = formData.get("newPassword")?.toString().trim();
@@ -72,7 +74,7 @@ export async function ChangePasswordAction(
 
   const isPwdValid = await verifyPassword(currentPassword, account.password);
   if (!isPwdValid) {
-    response.fieldMessage = "Current password is incorrect.";
+    response.message = "Current password is incorrect.";
     return response;
   }
 
