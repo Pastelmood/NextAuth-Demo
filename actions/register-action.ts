@@ -23,6 +23,7 @@ export async function registerAccountAction(
   const email =
     formData.get("email")?.toString().trim().toLocaleLowerCase() ?? "";
   const password = formData.get("password")?.toString().trim() ?? "";
+  const confirmPassword = formData.get("confirmPassword")?.toString().trim() ?? "";
 
   let response: FormState = {
     success: undefined,
@@ -35,15 +36,21 @@ export async function registerAccountAction(
     return response;
   }
 
-  if (password.length === 0) {
+  if (password.length === 0 || confirmPassword.length === 0) {
     response.success = false;
     response.message = "Password is required";
     return response;
   }
 
-  if (password.length < 8) {
+  if (password.length < 8 || confirmPassword.length < 8) {
     response.success = false;
     response.message = "Password must be at least 8 characters long.";
+    return response;
+  }
+
+  if (password !== confirmPassword) {
+    response.success = false;
+    response.message = "Passwords do not match..";
     return response;
   }
 
