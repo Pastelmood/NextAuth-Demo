@@ -2,7 +2,6 @@ import Database from "better-sqlite3";
 
 const db = new Database("nextAuth.db");
 
-
 export interface Account {
   id: number;
   email: string;
@@ -10,24 +9,26 @@ export interface Account {
   role: "user" | "admin";
 }
 
-
 /**
  * Inserts a new account into the database.
  *
- * @param account Partial<Account> object containing email, password, and role.
- *                The 'id' field is optional and ignored.
- * @returns The ID of the newly created account.
+ * @param account - An object containing the email, password, and role for the new account. The 'id' field is optional and ignored if provided.
+ * @returns The ID of the newly created account if successful, or undefined if the insertion fails (e.g., due to a duplicate email).
  */
-export function createAccount(account: Partial<Account>): number {
+export function createAccount(account: Partial<Account>): number | undefined {
   const stmt = db.prepare(`
     INSERT INTO account (email, password, role)
     VALUES (?, ?, ?)
   `);
 
-  const result = stmt.run(account.email, account.password, account.role);
-  return result.lastInsertRowid as number;
+  try {
+    const result = stmt.run(account.email, account.password, account.role);
+    return result.lastInsertRowid as number;
+  } catch (error) {
+    console.error(error);
+    return undefined;
+  }
 }
-
 
 /**
  * Retrieves all accounts from the database.
@@ -41,7 +42,6 @@ export function getAccounts(): Account[] {
   const rows = stmt.all();
   return rows as Account[];
 }
-
 
 /**
  * Retrieves an account from the database by its unique email address.
@@ -64,7 +64,6 @@ export function getAccountByEmail(email: string): Account | undefined {
   } as Account;
 }
 
-
 /**
  * Retrieves the role ("user" or "admin") associated with the given email address from the database.
  *
@@ -80,7 +79,6 @@ export function findRoleByEmail(email: string): "user" | "admin" | undefined {
   return row.role;
 }
 
-
 /**
  * Updates the password for the account associated with the given email.
  *
@@ -88,7 +86,10 @@ export function findRoleByEmail(email: string): "user" | "admin" | undefined {
  * @param password The new password to be set for the account.
  * @returns True if the password was successfully updated, false otherwise.
  */
-export function updateAccountPasswordByEmail(email: string, password: string): boolean {
+export function updateAccountPasswordByEmail(
+  email: string,
+  password: string
+): boolean {
   const stmt = db.prepare(`
     UPDATE account SET password = ? WHERE email = ?
   `);
