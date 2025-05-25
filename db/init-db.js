@@ -1,4 +1,5 @@
 import Database from "better-sqlite3";
+import { hash } from "bcryptjs";
 
 const db = new Database("nextAuth.db");
 
@@ -16,3 +17,11 @@ db.prepare(
   )
 `
 ).run();
+
+const password = await hash("P@ssw0rd", 12);
+
+db.prepare(`INSERT INTO account (email, password, role) VALUES (?, ?, ?)`).run(
+  "admin@admin.com",
+  password,
+  "admin"
+);
