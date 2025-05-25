@@ -3,7 +3,7 @@
 import { getAccountByEmail } from "@/libs/db";
 import { verifyPassword } from "@/libs/password";
 
-interface FormState {
+export interface FormState {
   success: boolean | undefined;
   message?: string;
   email?: string;
