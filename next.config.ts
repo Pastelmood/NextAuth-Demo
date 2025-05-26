@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   experimental: {
     authInterrupts: true,
   },
+  images: {
+    remotePatterns: [{ hostname: "www.svgrepo.com" }],
+  },
 };
 
 export default nextConfig;
