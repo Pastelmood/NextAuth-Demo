@@ -1,5 +1,6 @@
 "use server";
 
+import { auth } from "@/libs/auth";
 import { getAccountByEmail, updateAccountPasswordByEmail } from "@/libs/db";
 import { hashPassword, verifyPassword } from "@/libs/password";
 import { unauthorized } from "next/navigation";
@@ -21,12 +22,10 @@ export async function ChangePasswordAction(
   // const session = await auth()
   // get session from auth() from nextAuth
   // redirect to unauthorize page
-  const session = { user: { email: "test@example.com" } };
-  // const session = undefined;
+  const session = await auth();
   if (!session) unauthorized();
   
-  // const email = "test@example.com";
-  const email = session.user.email;
+  const email = session.user!.email as string;
   const currentPassword = formData.get("currentPassword")?.toString().trim();
   const newPassword = formData.get("newPassword")?.toString().trim();
   const confirmPassword = formData.get("confirmPassword")?.toString().trim();

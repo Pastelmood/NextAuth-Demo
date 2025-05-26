@@ -1,15 +1,18 @@
+import { auth } from "@/libs/auth";
 import { findRoleByEmail, getAccounts } from "@/libs/db";
 import { unauthorized } from "next/navigation";
 
 export default async function AdminPage() {
   // Mockup session
-  const session = { user: { email: "0864713049@outlook.com" } };
+  const session = await auth();
 
-  if (!session) {
+  if (!session?.user) {
     unauthorized();
   }
 
-  const role = findRoleByEmail(session.user.email);
+  const email = session.user.email ?? "";
+
+  const role = findRoleByEmail(email);
   
   if (!role || role !== "admin") {
     unauthorized();

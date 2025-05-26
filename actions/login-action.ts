@@ -1,5 +1,6 @@
 "use server";
 
+import { signIn } from "@/libs/auth";
 import { getAccountByEmail } from "@/libs/db";
 import { verifyPassword } from "@/libs/password";
 
@@ -54,6 +55,7 @@ export async function loginAction(prevState: FormState, formData: FormData) {
   // TODO:
   // Call singIn("credentials", user) from nextAuth
   // redirect to "/" when signIn() called
+  await signIn("credentials", user);
 
   response.success = true;
   response.message = "Login successful.";
