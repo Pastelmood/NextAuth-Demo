@@ -1,4 +1,8 @@
 import Link from "next/link";
+import LoginButton from "./login-button";
+import RegisterButton from "./register-button";
+import LogoutButton from "./logout-button";
+import GreetingName from "./greeting-name";
 
 export default function MainNavigation() {
   return (
@@ -8,21 +12,15 @@ export default function MainNavigation() {
           <Link href={"/"}>NextAuth 5 Demo</Link>
         </span>
         <div className="flex gap-2">
-          <Link href={"/login"}>
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition-colors">
-              Login
-            </button>
-          </Link>
 
-          <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition-colors">
-            Logout
-          </button>
+          <GreetingName name="admin@admin.com" />
+          
+          <LoginButton />
 
-          <Link href={"/register"}>
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition-colors">
-              Register
-            </button>
-          </Link>
+          <RegisterButton />
+
+          <LogoutButton />
+
         </div>
       </div>
     </nav>

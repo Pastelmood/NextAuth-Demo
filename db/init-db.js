@@ -25,3 +25,8 @@ db.prepare(`INSERT INTO account (email, password, role) VALUES (?, ?, ?)`).run(
   password,
   "admin"
 );
+
+console.log("Admin account:")
+console.log("Username: admin@admin.com")
+console.log("Password: P@ssw0rd")
+
