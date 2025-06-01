@@ -8,7 +8,7 @@ export default async function HomePage() {
   console.log("Session:", session);
 
   const user = session?.user || {};
-  const { name, email, image } = user;
+  const { name, email, image, role, userId } = user;
 
   return (
     <div className="flex flex-col items-center min-h-screen pt-28">
@@ -16,7 +16,13 @@ export default async function HomePage() {
         <div className="flex gap-3 flex-wrap">
           {session ? <LogOutForm /> : <LoginForm />}
 
-          <SessionInfo name={name} email={email} image={image} />
+          <SessionInfo
+            name={name}
+            email={email}
+            image={image}
+            role={role}
+            userId={userId}
+          />
         </div>
       </div>
     </div>

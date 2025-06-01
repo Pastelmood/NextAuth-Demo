@@ -16,6 +16,9 @@ export async function loginAction(formData: FormData) {
     email: "Belle Phaethon@outlook.com",
     image: "https://i.pravatar.cc/150?img=3",
 
+    role: "user",
+    userId: "12345",
+
     redirectTo: "/", // Optional: where to redirect after login
   };
 
