@@ -1,22 +1,22 @@
-import Card from "@/components/card";
+import LoginForm from "@/components/login-form";
+import LogOutForm from "@/components/logout-form";
+import SessionInfo from "@/components/session-info";
+import { auth } from "@/libs/auth";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const session = await auth();
+  console.log("Session:", session);
+
+  const user = session?.user || {};
+  const { name, email, image } = user;
+
   return (
     <div className="flex flex-col items-center min-h-screen pt-28">
       <div className="flex flex-col max-w-5xl w-full px-4 py-3 gap-5">
-        <h1 className="text-3xl font-bold">Home</h1>
         <div className="flex gap-3 flex-wrap">
-          <Card
-            title="Member Page"
-            description="- Change password."
-            link="/member"
-          />
+          {session ? <LogOutForm /> : <LoginForm />}
 
-          <Card
-            title="Admin Page"
-            description="- See all accounts."
-            link="/admin"
-          />
+          <SessionInfo name={name} email={email} image={image} />
         </div>
       </div>
     </div>
